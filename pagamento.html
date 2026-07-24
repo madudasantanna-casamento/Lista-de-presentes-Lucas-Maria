@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagamento do Presente - Lucas & Maria</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --primary-color: #7A8B7B;
+      --accent-color: #D8A49B;
+      --accent-hover: #C58F86;
+      --bg-color: #F8F9F7;
+      --card-bg: #FFFFFF;
+      --text-color: #38423B;
+      --text-muted: #6C7A6E;
+      --border-color: #E2E8E3;
+      
+      --font-title: 'Playfair Display', Georgia, serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+
+    .checkout-container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 25px rgba(122, 139, 123, 0.08);
+      padding: 30px 25px;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: var(--font-title);
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    .item-preview {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .item-preview img {
+      max-width: 150px;
+      max-height: 150px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
+
+    .item-title {
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .item-price {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-top: 5px;
+    }
+
+    .pix-box {
+      background: #F2F5F3;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .pix-box h3 {
+      font-size: 1rem;
+      margin-bottom: 15px;
+      color: var(--text-color);
+    }
+
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      margin: 15px 0;
+    }
+
+    #qrcode img {
+      border: 6px solid #fff;
+      border-radius: 8px;
+    }
+
+    .pix-input-container {
+      margin-top: 15px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 80px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      padding: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      resize: none;
+      background: #fff;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      word-break: break-all;
+    }
+
+    .btn-copiar {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-copiar:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .btn-voltar {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    .btn-voltar:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="checkout-container">
+    <h1>Finalizar Presente</h1>
+
+    <div class="item-preview">
+      <img id="item-img" src="" alt="Imagem do Presente" style="display: none;" />
+      <div id="item-nome" class="item-title">Carregando...</div>
+      <div id="item-valor" class="item-price">R$ 0,00</div>
+    </div>
+
+    <div class="pix-box">
+      <h3>Pagamento via Pix (Copia e Cola)</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">Escaneie o QR Code ou copie a chave abaixo no seu aplicativo do banco:</p>
+
+      <div id="qrcode"></div>
+
+      <div class="pix-input-container">
+        <textarea id="pix-code" readonly></textarea>
+        <button class="btn-copiar" onclick="copiarPix()">Copiar Código Pix</button>
+      </div>
+    </div>
+
+    <a href="index.html" class="btn-voltar">← Voltar para a lista de presentes</a>
+  </div>
+
+  <script>
+    // Chave Pix Padrão Atualizada
+    const PIX_PADRAO = "00020126460014br.gov.bcb.pix0114+55159915704600206Gratos5204000053039865406350.005802BR5923MARIA EDUARDA SANT ANNA6007BOITUVA62580520SAN2026072403304672550300017br.gov.bcb.brcode01051.0.06304804D";
+
+    // Capturar parâmetros da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const item = urlParams.get('item') || 'Presente de Casamento';
+    const valor = urlParams.get('valor') || '350.00';
+    const img = urlParams.get('img');
+    const pixCustomizado = urlParams.get('pix');
+
+    // Definir código Pix final
+    const pixFinal = pixCustomizado ? decodeURIComponent(pixCustomizado) : PIX_PADRAO;
+
+    // Preencher as informações na tela
+    document.getElementById('item-nome').innerText = decodeURIComponent(item);
+    document.getElementById('item-valor').innerText = 'R$ ' + parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    document.getElementById('pix-code').value = pixFinal;
+
+    if (img) {
+      const imgElem = document.getElementById('item-img');
+      imgElem.src = decodeURIComponent(img);
+      imgElem.style.display = 'block';
+    }
+
+    // Gerar QR Code Pix dinâmico
+    new QRCode(document.getElementById("qrcode"), {
+      text: pixFinal,
+      width: 180,
+      height: 180,
+      colorDark: "#38423B",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+
+    // Função para copiar a chave
+    function copiarPix() {
+      const pixInput = document.getElementById("pix-code");
+      pixInput.select();
+      pixInput.setSelectionRange(0, 99999);
+
+      navigator.clipboard.writeText(pixInput.value).then(() => {
+        alert("Código Pix copiado com sucesso! Abra o app do seu banco e escolha 'Pix Copia e Cola'.");
+      }).catch(err => {
+        alert("Selecione e copie o código manualmente.");
+      });
+    }
+  </script>
+
+</body>
+</html>
