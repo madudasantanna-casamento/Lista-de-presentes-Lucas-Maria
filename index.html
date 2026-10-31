@@ -3,25 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lista de Presentes de Casamento</title>
+  <title>Casamento - Maria Eduarda & Lucas</title>
   
-  <!-- Fonte Elegante Padronizada -->
+  <!-- Fontes Padronizadas -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Biblioteca para gerar QR Code -->
+  <!-- Biblioteca para QR Code -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
     :root {
-      /* Paleta Verde & Rosa */
-      --primary-color: #7A8B7B;      /* Verde Sálvia / Oliva Suave */
-      --accent-color: #D8A49B;       /* Rosa Seco / Rose */
-      --accent-hover: #C58F86;       /* Rosa Seco escurecido */
-      --bg-color: #F8F9F7;           /* Off-white esverdeado */
+      --primary-color: #7A8B7B;
+      --accent-color: #D8A49B;
+      --accent-hover: #C58F86;
+      --bg-color: #F8F9F7;
       --card-bg: #FFFFFF;
-      --text-color: #38423B;         /* Verde escuro */
+      --text-color: #38423B;
       --text-muted: #6C7A6E;
       --border-color: #E2E8E3;
       
@@ -45,35 +44,38 @@
 
     header {
       text-align: center;
-      padding: 50px 20px 30px;
+      padding: 40px 20px 30px;
       background-color: var(--card-bg);
       border-bottom: 1px solid var(--border-color);
       box-shadow: 0 4px 15px rgba(122, 139, 123, 0.05);
     }
 
-    header h1 {
-      font-family: var(--font-title);
-      font-size: 2.5rem;
-      font-weight: 600;
-      color: var(--primary-color);
-      margin-bottom: 12px;
+    .logo-img {
+      max-width: 140px;
+      height: auto;
+      margin-bottom: 15px;
     }
 
-    header p {
+    .names-img {
+      max-width: 320px;
+      height: auto;
+      margin-bottom: 8px;
+    }
+
+    .wedding-date {
+      font-size: 1.1rem;
       color: var(--text-muted);
-      font-size: 1rem;
-      max-width: 600px;
-      margin: 0 auto 20px;
-      font-weight: 300;
+      letter-spacing: 2px;
+      font-weight: 500;
+      margin-bottom: 25px;
     }
 
-    /* Estilos do Bloco de Compartilhamento / QR Code */
     .qr-share-box {
       background: #F2F5F3;
       border: 1px solid var(--border-color);
       border-radius: 12px;
-      padding: 20px;
-      max-width: 320px;
+      padding: 15px;
+      max-width: 280px;
       margin: 20px auto 0;
       display: flex;
       flex-direction: column;
@@ -82,26 +84,26 @@
 
     .qr-share-box h3 {
       font-family: var(--font-title);
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: var(--primary-color);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     #qrcode-header {
       background: #FFFFFF;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 8px;
+      border-radius: 6px;
       border: 1px solid var(--border-color);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .btn-copiar-link {
       background: var(--primary-color);
       color: white;
       border: none;
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.2s;
@@ -112,14 +114,163 @@
     }
 
     .container {
-      max-width: 1200px;
-      margin: 30px auto;
-      padding: 0 15px;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
 
+    /* Seção de Apresentação e História */
+    .intro-section {
+      text-align: center;
+      background: var(--card-bg);
+      padding: 40px 30px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 40px;
+      box-shadow: 0 4px 15px rgba(122, 139, 123, 0.05);
+    }
+
+    .couple-main-img {
+      width: 100%;
+      max-width: 450px;
+      height: auto;
+      border-radius: 12px;
+      margin: 20px 0;
+      object-fit: cover;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+    .intro-text {
+      font-size: 1.05rem;
+      color: var(--text-color);
+      line-height: 1.8;
+      margin-top: 15px;
+      text-align: justify;
+    }
+
+    /* Fotos lado a lado e resumo da história */
+    .history-box {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 40px;
+    }
+
+    .history-images {
+      display: flex;
+      gap: 15px;
+      flex-shrink: 0;
+    }
+
+    .history-images img {
+      width: 140px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .history-content h3 {
+      font-family: var(--font-title);
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+
+    .history-content p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Seção de Locais e Mapa */
+    .location-section {
+      background: var(--card-bg);
+      padding: 35px 30px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 40px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(122, 139, 123, 0.05);
+    }
+
+    .location-title {
+      font-family: var(--font-title);
+      font-size: 1.6rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+
+    .location-address {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .location-img {
+      width: 100%;
+      max-width: 600px;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .map-preview {
+      width: 100%;
+      height: 250px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      margin-top: 15px;
+    }
+
+    .map-preview iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Botão Verde Piscante de Confirmação */
+    .rsvp-container {
+      text-align: center;
+      margin: 50px 0;
+    }
+
+    @keyframes pulsar {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(122, 139, 123, 0.6); }
+      70% { transform: scale(1.03); box-shadow: 0 0 0 15px rgba(122, 139, 123, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(122, 139, 123, 0); }
+    }
+
+    .btn-pulse {
+      display: inline-block;
+      background-color: #7A8B7B;
+      color: #FFFFFF;
+      padding: 16px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 35px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      animation: pulsar 2s infinite;
+      transition: background 0.2s;
+    }
+
+    .btn-pulse:hover {
+      background-color: #687769;
+    }
+
+    /* Títulos das Seções da Lista */
     .section-title-wrapper {
       text-align: center;
-      margin: 40px 0 25px;
+      margin: 50px 0 25px;
     }
 
     .section-title {
@@ -246,7 +397,82 @@
       background-color: var(--accent-hover);
     }
 
-    /* Modal de Zoom da Imagem */
+    /* Mural de Recados */
+    .mural-section {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 35px 30px;
+      margin-top: 60px;
+      box-shadow: 0 4px 15px rgba(122, 139, 123, 0.05);
+    }
+
+    .mural-form textarea {
+      width: 100%;
+      height: 90px;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      resize: none;
+      margin-bottom: 10px;
+    }
+
+    .mural-form input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+
+    .btn-publicar {
+      background: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+
+    .btn-publicar:hover {
+      background: #687769;
+    }
+
+    .mural-lista {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .recado-item {
+      background: #F8F9F7;
+      border: 1px solid var(--border-color);
+      padding: 15px 20px;
+      border-radius: 10px;
+    }
+
+    .recado-autor {
+      font-weight: 600;
+      color: var(--primary-color);
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .recado-texto {
+      font-size: 0.95rem;
+      color: var(--text-color);
+    }
+
+    /* Modal de Zoom */
     .modal-zoom {
       display: none;
       position: fixed;
@@ -280,13 +506,14 @@
       cursor: pointer;
     }
 
-    /* Adaptações Mobile (Celular) */
+    /* Responsivo Celular */
     @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.9rem;
+      .history-box {
+        flex-direction: column;
+        text-align: center;
       }
-      header p {
-        font-size: 0.9rem;
+      .history-images {
+        justify-content: center;
       }
       .grid-presentes {
         grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -294,24 +521,6 @@
       }
       .card-img-container {
         height: 160px;
-        padding: 10px;
-      }
-      .card-content {
-        padding: 12px;
-      }
-      .card-title {
-        font-size: 0.95rem;
-      }
-      .card-price {
-        font-size: 0.95rem;
-        margin-bottom: 12px;
-      }
-      .btn-presentear {
-        padding: 10px;
-        font-size: 0.75rem;
-      }
-      .card-img-container::after {
-        display: none;
       }
     }
   </style>
@@ -319,10 +528,15 @@
 <body>
 
   <header>
-    <h1>Lista de Presentes de Casamento</h1>
-    <p>Sua presença é o nosso maior presente, mas se desejar nos abençoar, escolha um item abaixo!</p>
+    <!-- Logo com Iniciais (Foto 1) -->
+    <img src="./logo.jpg" alt="Logo LM" class="logo-img" />
+    
+    <!-- Nomes dos Noivos (Foto 2) e Data -->
+    <div>
+      <img src="./nomes.png" alt="Maria Eduarda & Lucas" class="names-img" />
+    </div>
+    <div class="wedding-date">30 / 01 / 2027</div>
 
-    <!-- Bloco dinâmico do QR Code -->
     <div class="qr-share-box">
       <h3>Acesse pelo Celular</h3>
       <div id="qrcode-header"></div>
@@ -332,24 +546,61 @@
 
   <main class="container">
 
-    <!-- VALES & EXPERIÊNCIAS -->
-    <div class="section-title-wrapper">
-      <h2 class="section-title">Vales & Experiências</h2>
-    </div>
-    
-    <div class="grid-presentes">
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./ValeAlmoco - ia01.png')">
-          <img src="./ValeAlmoco - ia01.png" alt="Vale Almoço" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Vale Almoço dos Noivos</h3>
-          <p class="card-price">R$ 150,00</p>
-          <a href="pagamento.html?item=Vale%20Almo%C3%A7o%20dos%20Noivos&valor=150&img=./ValeAlmoco%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406150.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401540674750300017br.gov.bcb.brcode01051.0.06304F438" class="btn-presentear">Presentear</a>
-        </div>
+    <!-- Texto do Casal em Primeira Pessoa e Foto do Casal -->
+    <section class="intro-section">
+      <img src="./fotocas casal.jpg" alt="Maria Eduarda e Lucas" class="couple-main-img" />
+      <div class="intro-text">
+        <p>Criamos este site com muito carinho para compartilhar com vocês todos os detalhes da organização do nosso casamento. Estamos imensamente felizes em receber cada um de vocês neste momento tão único.</p>
+        <p style="margin-top: 12px;">Abaixo, vocês serão direcionados para a confirmação de presença, que será essencial para nós. Queremos reforçar o quão felizes estamos em compartilhar este dia especial com todos vocês — afinal, a presença de cada um é o nosso maior presente! Logo em seguida, vocês também terão acesso à nossa lista de presentes.</p>
       </div>
+    </section>
 
+    <!-- Fotos Individuais (3 e 4) lado a lado com Resumo da História -->
+    <div class="history-box">
+      <div class="history-images">
+        <img src="./maria.jpeg" alt="Maria Eduarda" />
+        <img src="./lucas.jpeg" alt="Lucas" />
+      </div>
+      <div class="history-content">
+        <h3>Nossa História</h3>
+        <p>Toda grande história tem um começo digno de aventura, repleta de desafios, fases superadas e muito amor lado a lado. Capítulo após capítulo, nossa jornada se transformou na mais bela narrativa. E pessoas especiais como vocês fazem parte dessas páginas que guardamos com tanto carinho.</p>
+      </div>
+    </div>
+
+    <!-- CERIMÔNIA -->
+    <section class="location-section">
+      <h2 class="location-title">Cerimônia</h2>
+      <p class="location-address">📍 Basílica Nossa Senhora da Conceição, Praça da Matriz, nº 105, Centro - Tatuí - SP, CEP: 18.270-290</p>
+      <img src="./igreja.jpeg" alt="Basílica de Tatuí" class="location-img" />
+    </section>
+
+    <!-- FESTA -->
+    <section class="location-section">
+      <h2 class="location-title">Festa</h2>
+      <p class="location-address">📍 Parque Marcos Silva. Rua 4, lote 18 - Casa 3 - Iperó - SP, CEP: 18560-601</p>
+      <img src="./festa.jpeg" alt="Parque Marcos Silva" class="location-img" />
+
+      <h3 class="location-title" style="font-size: 1.3rem; margin-top: 30px;">Rota indicada - Cerimônia → Festa</h3>
+      <div class="map-preview">
+        <!-- Mapa incorporado direcionando para a rota do Google Maps -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58525.86438883584!2d-47.882!3d-23.35!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDIxJzAwLjAiUyA0N8KwNTMnMDAtMCBX!5e0!3m2!1spt-BR!2sbr!4v1650000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+      <p style="margin-top: 10px;"><a href="https://maps.app.goo.gl/VUA4pnpFT3PkmGk18?g_st=aw" target="_blank" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">Abrir rota completa no Google Maps ↗</a></p>
+    </section>
+
+    <!-- Botão Verde Piscante: Confirmar Presença -->
+    <div class="rsvp-container">
+      <a href="rsvp.html" class="btn-pulse">Confirmar Presença</a>
+    </div>
+
+    <!-- LISTA DE PRESENTES -->
+    <div class="section-title-wrapper" id="lista-presentes">
+      <h2 class="section-title">Lista de Presentes</h2>
+    </div>
+
+    <!-- Mantenha os seus cards de presentes aqui (Vales, Eletros, Casa) -->
+    <div class="grid-presentes">
+      <!-- Exemplo de card de presente -->
       <div class="card">
         <div class="card-img-container" onclick="abrirZoom('./valecinema.png')">
           <img src="./valecinema.png" alt="Vale Cinema" />
@@ -357,18 +608,7 @@
         <div class="card-content">
           <h3 class="card-title">Vale Cinema e Pipoca</h3>
           <p class="card-price">R$ 100,00</p>
-          <a href="pagamento.html?item=Vale%20Cinema%20e%20Pipoca&valor=100&img=./valecinema.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406100.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401512573550300017br.gov.bcb.brcode01051.0.063042402" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./DiaSPACasal - ia01.png')">
-          <img src="./DiaSPACasal - ia01.png" alt="Vale SPA" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Dia de SPA para o Casal</h3>
-          <p class="card-price">R$ 350,00</p>
-          <a href="pagamento.html?item=Dia%20de%20SPA%20para%20o%20Casal&valor=350&img=./DiaSPACasal%20-%20ia01.png&pix=00020126460014br.gov.bcb.pix0114%2B55159915704600206Gratos5204000053039865406350.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072403304672550300017br.gov.bcb.brcode01051.0.06304804D" class="btn-presentear">Presentear</a>
+          <a href="pagamento.html?item=Vale%20Cinema%20e%20Pipoca&valor=100&img=./valecinema.png" class="btn-presentear">Presentear</a>
         </div>
       </div>
 
@@ -379,309 +619,51 @@
         <div class="card-content">
           <h3 class="card-title">Sessão de Massagem Relaxante</h3>
           <p class="card-price">R$ 200,00</p>
-          <a href="pagamento.html?item=Sess%C3%A3o%20de%20Massagem%20Relaxante&valor=200&img=./valemassagem.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406200.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401551042750300017br.gov.bcb.brcode01051.0.0630462CB" class="btn-presentear">Presentear</a>
+          <a href="pagamento.html?item=Sess%C3%A3o%20de%20Massagem%20Relaxante&valor=200&img=./valemassagem.png" class="btn-presentear">Presentear</a>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Vale transporte - ia01.png')">
-          <img src="./Vale transporte - ia01.png" alt="Vale Transporte" />
+        <div class="card-img-container" onclick="abrirZoom('./DiaSPACasal - ia01.png')">
+          <img src="./DiaSPACasal - ia01.png" alt="Vale SPA" />
         </div>
         <div class="card-content">
-          <h3 class="card-title">Ajuda no Transporte da Viagem</h3>
-          <p class="card-price">R$ 250,00</p>
-          <a href="pagamento.html?item=Ajuda%20no%20Transporte%20da%20Viagem&valor=250&img=./Vale%20transporte%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406250.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401563376150300017br.gov.bcb.brcode01051.0.0630452DC" class="btn-presentear">Presentear</a>
+          <h3 class="card-title">Dia de SPA para o Casal</h3>
+          <p class="card-price">R$ 350,00</p>
+          <a href="pagamento.html?item=Dia%20de%20SPA%20para%20o%20Casal&valor=350&img=./DiaSPACasal%20-%20ia01.png" class="btn-presentear">Presentear</a>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Vale hospedagem - ia01.png')">
-          <img src="./Vale hospedagem - ia01.png" alt="Vale Hospedagem" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Hospedagem na Lua de Mel</h3>
-          <p class="card-price">R$ 600,00</p>
-          <a href="pagamento.html?item=Hospedagem%20na%20Lua%20de%20Mel&valor=600&img=./Vale%20hospedagem%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406600.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072402000844150300017br.gov.bcb.brcode01051.0.06304A919" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./PassagensAerias - ia01.png')">
-          <img src="./PassagensAerias - ia01.png" alt="Vale Passagens Aéreas" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Passagens Aéreas</h3>
-          <p class="card-price">R$ 1.800,00</p>
-          <a href="pagamento.html?item=Passagens%20A%C3%A9reas&valor=1800&img=./PassagensAerias%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria52040000530398654071800.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072402022276850300017br.gov.bcb.brcode01051.0.063044B40" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
     </div>
 
-    <!-- ELETROS & ELETRÔNICOS -->
-    <div class="section-title-wrapper">
-      <h2 class="section-title">Eletros & Eletrônicos</h2>
-    </div>
-
-    <div class="grid-presentes">
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Geladeira - ia01.png')">
-          <img src="./Geladeira - ia01.png" alt="Geladeira" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Geladeira Frost Free</h3>
-          <p class="card-price">R$ 2.000,00</p>
-          <a href="pagamento.html?item=Geladeira%20Frost%20Free&valor=2000&img=./Geladeira%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria52040000530398654072000.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072402025598150300017br.gov.bcb.brcode01051.0.0630418DD" class="btn-presentear">Presentear</a>
-        </div>
+    <!-- MURAL DE RECADOS -->
+    <section class="mural-section">
+      <h2 class="section-title" style="font-size: 1.5rem; margin-top: 0;">Deixe seu recado aos noivos:</h2>
+      <div class="mural-form" style="margin-top: 20px;">
+        <textarea id="texto-recado" maxlength="200" placeholder="Escreva sua mensagem carinhosa (máximo 200 caracteres)..." required></textarea>
+        <input type="text" id="nome-convidado" placeholder="Seu nome" required />
+        <button class="btn-publicar" onclick="publicarRecado()">Publicar</button>
       </div>
 
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Maquina de Lavar - ia01.png')">
-          <img src="./Maquina de Lavar - ia01.png" alt="Máquina de Lavar" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Máquina de Lavar</h3>
-          <p class="card-price">R$ 1.800,00</p>
-          <a href="pagamento.html?item=M%C3%A1quina%20de%20Lavar&valor=1800&img=./Maquina%20de%20Lavar%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria52040000530398654071800.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072402022276850300017br.gov.bcb.brcode01051.0.063044B40" class="btn-presentear">Presentear</a>
-        </div>
+      <div class="mural-lista" id="lista-recados">
+        <!-- Os recados publicados aparecerão aqui -->
       </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Fogao - ia01.png')">
-          <img src="./Fogao - ia01.png" alt="Fogão" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Fogão 4 Bocas Inox</h3>
-          <p class="card-price">R$ 1.000,00</p>
-          <a href="pagamento.html?item=Fog%C3%A3o%204%20Bocas%20Inox&valor=1000&img=./Fogao%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria52040000530398654071000.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072402012692950300017br.gov.bcb.brcode01051.0.06304D472" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./microondas - ia01.png')">
-          <img src="./microondas - ia01.png" alt="Micro-ondas" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Forno Micro-ondas</h3>
-          <p class="card-price">R$ 600,00</p>
-          <a href="pagamento.html?item=Forno%20Micro-ondas&valor=600&img=./microondas%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406600.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072402000844150300017br.gov.bcb.brcode01051.0.06304A919" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Sofa - ia01.png')">
-          <img src="./Sofa - ia01.png" alt="Sofá" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Sofá Confortável</h3>
-          <p class="card-price">R$ 2.000,00</p>
-          <a href="pagamento.html?item=Sof%C3%A1%20Confort%C3%A1vel&valor=2000&img=./Sofa%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria52040000530398654072000.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072402025598150300017br.gov.bcb.brcode01051.0.0630418DD" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Notebook - ia01.png')">
-          <img src="./Notebook - ia01.png" alt="Notebook" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Notebook</h3>
-          <p class="card-price">R$ 2.000,00</p>
-          <a href="pagamento.html?item=Notebook&valor=2000&img=./Notebook%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria52040000530398654072000.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072402025598150300017br.gov.bcb.brcode01051.0.0630418DD" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./liquidificador - ia01.png')">
-          <img src="./liquidificador - ia01.png" alt="Liquidificador" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Liquidificador de Vidro</h3>
-          <p class="card-price">R$ 250,00</p>
-          <a href="pagamento.html?item=Liquidificador%20de%20Vidro&valor=250&img=./liquidificador%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406250.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401563376150300017br.gov.bcb.brcode01051.0.0630452DC" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./batedeira - ia01.png')">
-          <img src="./batedeira - ia01.png" alt="Batedeira" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Batedeira Planetária</h3>
-          <p class="card-price">R$ 400,00</p>
-          <a href="pagamento.html?item=Batedeira%20Planet%C3%A1ria&valor=400&img=./batedeira%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406400.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401584136650300017br.gov.bcb.brcode01051.0.0630456C8" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./sanduicheira - ia01.png')">
-          <img src="./sanduicheira - ia01.png" alt="Sanduicheira" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Sanduicheira e Grill</h3>
-          <p class="card-price">R$ 130,00</p>
-          <a href="pagamento.html?item=Sanduicheira%20e%20Grill&valor=130&img=./sanduicheira%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406130.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401523734850300017br.gov.bcb.brcode01051.0.063044970" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Panela de Pressao - ia01.png')">
-          <img src="./Panela de Pressao - ia01.png" alt="Panela de Pressão Elétrica" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Panela de Pressão Elétrica</h3>
-          <p class="card-price">R$ 400,00</p>
-          <a href="pagamento.html?item=Panela%20de%20Press%C3%A3o%20El%C3%A9trica&valor=400&img=./Panela%20de%20Pressao%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406400.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401584136650300017br.gov.bcb.brcode01051.0.0630456C8" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- CASA & UTENSÍLIOS -->
-    <div class="section-title-wrapper">
-      <h2 class="section-title">Casa & Utensílios</h2>
-    </div>
-
-    <div class="grid-presentes">
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./jogo de panelas - ia01.png')">
-          <img src="./jogo de panelas - ia01.png" alt="Jogo de Panelas" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Jogo de Panelas Antiaderente</h3>
-          <p class="card-price">R$ 500,00</p>
-          <a href="pagamento.html?item=Jogo%20de%20Panelas%20Antiaderente&valor=500&img=./jogo%20de%20panelas%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406500.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401593439550300017br.gov.bcb.brcode01051.0.06304EEEE" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./jogo de jantar - ia01.png')">
-          <img src="./jogo de jantar - ia01.png" alt="Jogo de Jantar" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Jogo de Jantar Completo</h3>
-          <p class="card-price">R$ 500,00</p>
-          <a href="pagamento.html?item=Jogo%20de%20Jantar%20Completo&valor=500&img=./jogo%20de%20jantar%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406500.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401593439550300017br.gov.bcb.brcode01051.0.06304EEEE" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./jogo de talheres - ia01.png')">
-          <img src="./jogo de talheres - ia01.png" alt="Jogo de Talheres" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Faqueiro de Talheres Inox</h3>
-          <p class="card-price">R$ 200,00</p>
-          <a href="pagamento.html?item=Faqueiro%20de%20Talheres%20Inox&valor=200&img=./jogo%20de%20talheres%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406200.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401551042750300017br.gov.bcb.brcode01051.0.0630462CB" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Jogo de copos - ia01.png')">
-          <img src="./Jogo de copos - ia01.png" alt="Jogo de Copos" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Jogo de Copos de Vidro</h3>
-          <p class="card-price">R$ 100,00</p>
-          <a href="pagamento.html?item=Jogo%20de%20Copos%20de%20Vidro&valor=100&img=./Jogo%20de%20copos%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406100.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401512573550300017br.gov.bcb.brcode01051.0.063042402" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Jogo de tacas -ia01.png')">
-          <img src="./Jogo de tacas -ia01.png" alt="Jogo de Taças" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Jogo de Taças para Vinho</h3>
-          <p class="card-price">R$ 150,00</p>
-          <a href="pagamento.html?item=Jogo%20de%20Ta%C3%A7as%20para%20Vinho&valor=150&img=./Jogo%20de%20tacas%20-ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406150.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401540674750300017br.gov.bcb.brcode01051.0.06304F438" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Kit sobremesa - ia01.png')">
-          <img src="./Kit sobremesa - ia01.png" alt="Kit Sobremesa" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Kit para Sobremesa</h3>
-          <p class="card-price">R$ 100,00</p>
-          <a href="pagamento.html?item=Kit%20para%20Sobremesa&valor=100&img=./Kit%20sobremesa%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406100.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401512573550300017br.gov.bcb.brcode01051.0.063042402" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Jogo de potes - ia01.png')">
-          <img src="./Jogo de potes - ia01.png" alt="Kit Potes" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Kit Potes para Mantimentos</h3>
-          <p class="card-price">R$ 140,00</p>
-          <a href="pagamento.html?item=Kit%20Potes%20para%20Mantimentos&valor=140&img=./Jogo%20de%20potes%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406140.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401531896750300017br.gov.bcb.brcode01051.0.0630421B2" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./KitChurrasco-ia01.png')">
-          <img src="./KitChurrasco-ia01.png" alt="Kit Churrasco" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Kit Churrasco Completo</h3>
-          <p class="card-price">R$ 180,00</p>
-          <a href="pagamento.html?item=Kit%20Churrasco%20Completo&valor=180&img=./KitChurrasco-ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406180.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401544071050300017br.gov.bcb.brcode01051.0.06304AA76" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Marinex - ia01.png')">
-          <img src="./Marinex - ia01.png" alt="Kit Marinex" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Jogo de Assadeiras Marinex</h3>
-          <p class="card-price">R$ 180,00</p>
-          <a href="pagamento.html?item=Jogo%20de%20Assadeiras%20Marinex&valor=180&img=./Marinex%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406180.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401544071050300017br.gov.bcb.brcode01051.0.06304AA76" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Jogo de cama - ia01.png')">
-          <img src="./Jogo de cama - ia01.png" alt="Jogo de Cama" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Jogo de Cama Casal</h3>
-          <p class="card-price">R$ 280,00</p>
-          <a href="pagamento.html?item=Jogo%20de%20Cama%20Casal&valor=280&img=./Jogo%20de%20cama%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406280.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401571423650300017br.gov.bcb.brcode01051.0.063049992" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-img-container" onclick="abrirZoom('./Jogo de banho - ia01.png')">
-          <img src="./Jogo de banho - ia01.png" alt="Jogo de Banho" />
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Jogo de Toalhas de Banho</h3>
-          <p class="card-price">R$ 200,00</p>
-          <a href="pagamento.html?item=Jogo%20de%20Toalhas%20de%20Banho&valor=200&img=./Jogo%20de%20banho%20-%20ia01.png&pix=00020126940014br.gov.bcb.pix0114%2B55159915704600254Obrigada%20isso%20ira%20nos%20ajudar%20grandemente%20Lucas%20e%20Maria5204000053039865406200.005802BR5923MARIA%20EDUARDA%20SANT%20ANNA6007BOITUVA62580520SAN2026072401551042750300017br.gov.bcb.brcode01051.0.0630462CB" class="btn-presentear">Presentear</a>
-        </div>
-      </div>
-
-    </div>
+    </section>
 
   </main>
 
   <!-- Modal para Zoom -->
   <div id="modalZoom" class="modal-zoom" onclick="fecharZoom()">
-    <span class="modal-close">&times;</span>
+    <span class="modal-close">×</span>
     <img id="imgZoom" class="modal-content" src="" alt="Imagem ampliada" />
   </div>
 
   <script>
-    // Gerador de QR Code com o próprio endereço do GitHub Pages
+    // Gerador de QR Code
     const urlAtual = window.location.href;
     new QRCode(document.getElementById("qrcode-header"), {
       text: urlAtual,
-      width: 120,
-      height: 120,
+      width: 100,
+      height: 100,
       colorDark: "#38423B",
       colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H
@@ -702,6 +684,36 @@
     function fecharZoom() {
       document.getElementById('modalZoom').style.display = 'none';
     }
+
+    // Sistema de Mural de Recados com salvamento local
+    function carregarRecados() {
+      const recados = JSON.parse(localStorage.getItem('recados_casamento') || '[]');
+      const lista = document.getElementById('lista-recados');
+      lista.innerHTML = '';
+      recados.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'recado-item';
+        div.innerHTML = `<div class="recado-autor">${r.nome}</div><div class="recado-texto">${r.texto}</div>`;
+        lista.appendChild(div);
+      });
+    }
+
+    function publicarRecado() {
+      const texto = document.getElementById('texto-recado').value.trim();
+      const nome = document.getElementById('nome-convidado').value.trim();
+      if(!texto || !nome) {
+        alert('Por favor, preencha seu nome e a mensagem.');
+        return;
+      }
+      const recados = JSON.parse(localStorage.getItem('recados_casamento') || '[]');
+      recados.unshift({ nome, texto });
+      localStorage.setItem('recados_casamento', JSON.stringify(recados));
+      document.getElementById('texto-recado').value = '';
+      document.getElementById('nome-convidado').value = '';
+      carregarRecados();
+    }
+
+    window.onload = carregarRecados;
   </script>
 
 </body>
