@@ -19,16 +19,13 @@
       --text-color: #38423B;
       --text-muted: #6C7A6E;
       --border-color: #E2E8E3;
+      --error-color: #D9534F;
       
       --font-title: 'Playfair Display', Georgia, serif;
       --font-body: 'Montserrat', sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: var(--font-body);
@@ -56,15 +53,21 @@
       margin-bottom: 25px;
     }
 
-    .form-group {
-      margin-bottom: 20px;
-    }
+    .form-group { margin-bottom: 20px; }
 
     label {
       display: block;
       font-weight: 500;
       margin-bottom: 8px;
       font-size: 0.95rem;
+    }
+
+    .error-msg {
+      color: var(--error-color);
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: none;
     }
 
     select, input[type="text"], input[type="tel"], input[type="email"], input[type="number"] {
@@ -90,10 +93,7 @@
       margin-top: 8px;
     }
 
-    .radio-group label {
-      font-weight: normal;
-      cursor: pointer;
-    }
+    .radio-group label { font-weight: normal; cursor: pointer; }
 
     .btn-enviar {
       display: block;
@@ -106,15 +106,30 @@
       font-weight: 600;
       font-size: 0.95rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
       cursor: pointer;
-      margin-top: 30px;
+      margin-top: 25px;
       transition: background 0.2s;
     }
 
-    .btn-enviar:hover {
-      background-color: #687769;
+    .btn-enviar:hover { background-color: #687769; }
+
+    .btn-voltar-menu {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-top: 15px;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
     }
+
+    .btn-voltar-menu:hover { background: #F2F5F3; color: var(--text-color); }
 
     .success-box {
       display: none;
@@ -128,21 +143,15 @@
       margin-bottom: 15px;
     }
 
-    .btn-voltar {
-      display: inline-block;
-      margin-top: 20px;
-      background: var(--accent-color);
-      color: #fff;
-      padding: 10px 25px;
-      border-radius: 20px;
-      text-decoration: none;
-      font-weight: 600;
+    .sms-preview {
+      background: #F2F5F3;
+      border: 1px dashed var(--primary-color);
+      padding: 15px;
+      border-radius: 8px;
       font-size: 0.85rem;
-      text-transform: uppercase;
-    }
-
-    .btn-voltar:hover {
-      background: var(--accent-hover);
+      text-align: left;
+      margin: 20px 0;
+      color: var(--text-color);
     }
   </style>
 </head>
@@ -152,10 +161,19 @@
     <h1>Confirmação de Presença</h1>
 
     <form id="rsvpForm" onsubmit="enviarRSVP(event)">
-      <!-- Pergunta 1: Quantidade de Pessoas -->
+      
+      <!-- Telefone -->
       <div class="form-group">
-        <label for="numPessoas">Número de pessoas que irão lhe acompanhar (incluindo você):</label>
-        <select id="numPessoas" required onchange="gerarCamposNomes()">
+        <div id="err-celular" class="error-msg">Preencha este campo obrigatório.</div>
+        <label for="celular">Número de celular para contato (com DDD)*:</label>
+        <input type="tel" id="celular" name="Telefone" placeholder="(15) 99999-9999">
+      </div>
+
+      <!-- Número de pessoas -->
+      <div class="form-group">
+        <div id="err-numPessoas" class="error-msg">Selecione o número de pessoas.</div>
+        <label for="numPessoas">Número de pessoas que irão lhe acompanhar (incluindo você)*:</label>
+        <select id="numPessoas" name="Total_Pessoas" onchange="gerarCamposNomes()">
           <option value="" disabled selected>Selecione...</option>
           <option value="1">1 pessoa</option>
           <option value="2">2 pessoas</option>
@@ -170,51 +188,54 @@
         </select>
       </div>
 
-      <!-- Campos Dinâmicos para os Nomes -->
+      <!-- Campos Dinâmicos -->
       <div class="form-group" id="grupoNomes" style="display: none;">
-        <label>Informe o nome completo de cada participante:</label>
+        <label>Informe o nome de cada participante*:</label>
         <div id="camposNomes" class="names-container"></div>
       </div>
 
-      <!-- Pergunta 2: Crianças até 6 anos -->
+      <!-- Crianças -->
       <div class="form-group">
         <label>Algum dos seus acompanhantes é criança (de até 6 anos)?</label>
         <div class="radio-group">
-          <label><input type="radio" name="temCrianca" value="sim" onclick="toggleCriancas(true)"> Sim</label>
-          <label><input type="radio" name="temCrianca" value="nao" onclick="toggleCriancas(false)" checked> Não</label>
+          <label><input type="radio" name="Possui_Criancas" value="Sim" onclick="toggleCriancas(true)"> Sim</label>
+          <label><input type="radio" name="Possui_Criancas" value="Não" onclick="toggleCriancas(false)" checked> Não</label>
         </div>
       </div>
 
       <div class="form-group" id="grupoQtdCriancas" style="display: none;">
         <label for="qtdCriancas">Quantas crianças de até 6 anos?</label>
-        <input type="number" id="qtdCriancas" min="1" max="10" value="0">
+        <input type="number" id="qtdCriancas" name="Qtd_Criancas" min="1" max="10" value="0">
       </div>
 
-      <!-- Contato: Celular (Obrigatório) -->
-      <div class="form-group">
-        <label for="celular">Número de celular para contato (com DDD):</label>
-        <input type="tel" id="celular" placeholder="(15) 99999-9999" required>
-      </div>
-
-      <!-- Contato: E-mail (Opcional) -->
+      <!-- E-mail -->
       <div class="form-group">
         <label for="email">E-mail (opcional):</label>
-        <input type="email" id="email" placeholder="seuemail@exemplo.com">
+        <input type="email" id="email" name="Email" placeholder="seuemail@exemplo.com">
       </div>
 
-      <button type="submit" class="btn-enviar">Confirmar Presença</button>
+      <button type="submit" id="btnSubmit" class="btn-enviar">Confirmar Presença</button>
+      <a href="index.html" class="btn-voltar-menu">Voltar ao Menu</a>
     </form>
 
-    <!-- Mensagem de Sucesso -->
     <div id="successBox" class="success-box">
       <h2>Presença Confirmada com Sucesso!</h2>
-      <p style="color: var(--text-muted); margin-bottom: 20px;">Agradecemos imensamente a sua confirmação. Estamos contando os dias para celebrar este momento inesquecível com você!</p>
-      <a href="index.html" class="btn-voltar">Voltar para a página principal</a>
+      <p style="color: var(--text-muted); margin-bottom: 15px;">Os dados foram registrados com sucesso na planilha e a notificação foi enviada para os noivos.</p>
+      
+      <div class="sms-preview">
+        <strong>📱 Mensagem de confirmação enviada:</strong><br>
+        <em>"Parabéns! Você acaba de confirmar sua presença em um dos dias mais importantes de nossas vidas. Obrigada, Lucas & Maria."</em>
+      </div>
+
+      <a href="index.html" class="btn-voltar-menu" style="background: var(--primary-color); color: #fff;">Voltar ao Menu Principal</a>
     </div>
 
   </div>
 
   <script>
+    // Cole aqui a URL gerada na Implantação do Google Apps Script
+    const GOOGLE_SCRIPT_URL = "COLE_SEU_LINK_DO_APPS_SCRIPT_AQUI"; 
+
     function gerarCamposNomes() {
       const qtd = parseInt(document.getElementById('numPessoas').value);
       const container = document.getElementById('camposNomes');
@@ -226,8 +247,8 @@
         for (let i = 1; i <= qtd; i++) {
           const input = document.createElement('input');
           input.type = 'text';
-          input.placeholder = `Nome da ${i}ª pessoa (incluindo você)`;
-          input.required = true;
+          input.placeholder = `Convidado ${i}`;
+          input.className = 'input-nome-convidado';
           container.appendChild(input);
         }
       }
@@ -237,11 +258,78 @@
       document.getElementById('grupoQtdCriancas').style.display = mostrar ? 'block' : 'none';
     }
 
-    function enviarRSVP(event) {
+    async function enviarRSVP(event) {
       event.preventDefault();
-      // Salvar os dados localmente ou processar
-      document.getElementById('rsvpForm').style.display = 'none';
-      document.getElementById('successBox').style.display = 'block';
+      
+      let valido = true;
+      const celular = document.getElementById('celular').value.trim();
+      const numPessoas = document.getElementById('numPessoas').value;
+
+      document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+
+      let confirmados = JSON.parse(localStorage.getItem('telefones_confirmados') || '[]');
+      if (!celular) {
+        document.getElementById('err-celular').innerText = "Preencha este campo obrigatório.";
+        document.getElementById('err-celular').style.display = 'block';
+        valido = false;
+      } else if (confirmados.includes(celular)) {
+        document.getElementById('err-celular').innerText = "Este telefone já foi informado em uma confirmação anterior!";
+        document.getElementById('err-celular').style.display = 'block';
+        valido = false;
+      }
+
+      if (!numPessoas) {
+        document.getElementById('err-numPessoas').style.display = 'block';
+        valido = false;
+      }
+
+      const inputsNomes = document.querySelectorAll('.input-nome-convidado');
+      let nomesArr = [];
+      inputsNomes.forEach(inp => {
+        if (!inp.value.trim()) {
+          valido = false;
+          inp.style.borderColor = 'var(--error-color)';
+        } else {
+          inp.style.borderColor = 'var(--border-color)';
+          nomesArr.push(inp.value.trim());
+        }
+      });
+
+      if (!valido) return;
+
+      const btnSubmit = document.getElementById('btnSubmit');
+      btnSubmit.innerText = "Enviando...";
+      btnSubmit.disabled = true;
+
+      const temCrianca = document.querySelector('input[name="Possui_Criancas"]:checked').value;
+      const qtdCriancas = document.getElementById('qtdCriancas').value;
+      const email = document.getElementById('email').value.trim();
+
+      const formData = new URLSearchParams();
+      formData.append('Telefone', celular);
+      formData.append('Total_Pessoas', numPessoas);
+      formData.append('Convidados', nomesArr.join(', '));
+      formData.append('Possui_Criancas', temCrianca);
+      formData.append('Qtd_Criancas', qtdCriancas);
+      formData.append('Email', email);
+
+      try {
+        await fetch(https://script.google.com/macros/s/AKfycbzBb8Wzaff93jE6G_KvwISXSOaiLOu8kgLShSnJ3_FFaZPpeaE1o106-I8UWGLzpYo/exec, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: formData
+        });
+
+        confirmados.push(celular);
+        localStorage.setItem('telefones_confirmados', JSON.stringify(confirmados));
+
+        document.getElementById('rsvpForm').style.display = 'none';
+        document.getElementById('successBox').style.display = 'block';
+      } catch (error) {
+        alert('Erro ao conectar com o servidor. Tente novamente.');
+        btnSubmit.innerText = "Confirmar Presença";
+        btnSubmit.disabled = false;
+      }
     }
   </script>
 
