@@ -288,13 +288,10 @@
 
       document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
 
-      let confirmados = JSON.parse(localStorage.getItem('telefones_confirmados') || '[]');
+      // A restrição de telefone duplicado foi removida conforme solicitado.
+
       if (!celular) {
         document.getElementById('err-celular').innerText = "Preencha este campo obrigatório.";
-        document.getElementById('err-celular').style.display = 'block';
-        valido = false;
-      } else if (confirmados.includes(celular)) {
-        document.getElementById('err-celular').innerText = "Este telefone já foi informado em uma confirmação anterior!";
         document.getElementById('err-celular').style.display = 'block';
         valido = false;
       }
@@ -338,7 +335,6 @@
       const qtdCriancas = document.getElementById('qtdCriancas').value;
       const email = document.getElementById('email').value.trim();
 
-      // Tratar número de telefone para o padrão do WhatsApp (Adicionar +55 se necessário)
       let numLimpo = celular.replace(/\D/g, '');
       if (numLimpo.length === 10 || numLimpo.length === 11) {
         numLimpo = '55' + numLimpo;
@@ -347,7 +343,6 @@
       const textoMensagem = encodeURIComponent("Parabéns! Você acaba de confirmar sua presença em um dos dias mais importantes de nossas vidas. Obrigada, Lucas & Maria.");
       const wspUrl = `https://api.whatsapp.com/send?phone=${numLimpo}&text=${textoMensagem}`;
 
-      // Configurar o botão do WhatsApp
       document.getElementById('btnWspLink').href = wspUrl;
 
       const formData = new URLSearchParams();
@@ -364,13 +359,9 @@
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: formData.toString()
       }).then(() => {
-        confirmados.push(celular);
-        localStorage.setItem('telefones_confirmados', JSON.stringify(confirmados));
-
         document.getElementById('rsvpForm').style.display = 'none';
         document.getElementById('successBox').style.display = 'block';
 
-        // Tenta abrir a aba do WhatsApp automaticamente
         window.open(wspUrl, '_blank');
       }).catch(err => {
         alert("Ocorreu um erro ao conectar com a planilha. Verifique a URL do script.");
