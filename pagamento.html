@@ -49,7 +49,7 @@
       border-radius: 16px;
       border: 1px solid var(--border-color);
       box-shadow: 0 8px 25px rgba(122, 139, 123, 0.08);
-      padding: 30px 25px;
+      padding: 35px 25px;
       text-align: center;
     }
 
@@ -57,34 +57,41 @@
       font-family: var(--font-title);
       color: var(--primary-color);
       font-size: 1.8rem;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     .item-preview {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       padding-bottom: 20px;
       border-bottom: 1px dashed var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centraliza perfeitamente todos os itens abaixo */
     }
 
+    /* Imagem maior e centralizada */
     .item-preview img {
-      max-width: 150px;
-      max-height: 150px;
+      width: 100%;
+      max-width: 220px; /* Aumentado para destacar mais o presente */
+      height: 200px;    /* Altura fixa proporcional */
       object-fit: contain;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
+      display: block;
     }
 
     .item-title {
       font-family: var(--font-title);
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       font-weight: 600;
       color: var(--text-color);
+      text-align: center;
     }
 
     .item-price {
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       font-weight: 600;
       color: var(--primary-color);
-      margin-top: 5px;
+      margin-top: 8px;
     }
 
     .pix-box {
@@ -97,7 +104,7 @@
 
     .pix-box h3 {
       font-size: 1rem;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
       color: var(--text-color);
     }
 
@@ -152,10 +159,11 @@
 
     .btn-voltar {
       display: inline-block;
-      margin-top: 20px;
+      margin-top: 25px;
       color: var(--text-muted);
       text-decoration: none;
       font-size: 0.85rem;
+      font-weight: 500;
     }
 
     .btn-voltar:hover {
@@ -176,7 +184,7 @@
 
     <div class="pix-box">
       <h3>Pagamento via Pix (Copia e Cola)</h3>
-      <p style="font-size: 0.85rem; color: var(--text-muted);">Escaneie o QR Code ou copie o código abaixo no seu aplicativo do banco:</p>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">Escaneie o QR Code ou copie o código abaixo no seu aplicativo do banco:</p>
 
       <div id="qrcode"></div>
 
@@ -190,20 +198,16 @@
   </div>
 
   <script>
-    // Chave Pix Padrão (Fallback caso não seja enviada via URL)
     const PIX_PADRAO = "00020126460014br.gov.bcb.pix0114+55159915704600206Gratos5204000053039865406350.005802BR5923MARIA EDUARDA SANT ANNA6007BOITUVA62580520SAN2026072403304672550300017br.gov.bcb.brcode01051.0.06304804D";
 
-    // Capturar parâmetros repassados pela URL do index.html
     const urlParams = new URLSearchParams(window.location.search);
     const item = urlParams.get('item') || 'Presente de Casamento';
     const valor = urlParams.get('valor') || '350.00';
     const img = urlParams.get('img');
     const pixCustomizado = urlParams.get('pix');
 
-    // Definir código Pix final
     const pixFinal = pixCustomizado ? decodeURIComponent(pixCustomizado) : PIX_PADRAO;
 
-    // Preencher as informações na interface
     document.getElementById('item-nome').innerText = decodeURIComponent(item);
     document.getElementById('item-valor').innerText = 'R$ ' + parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
     document.getElementById('pix-code').value = pixFinal;
@@ -214,7 +218,6 @@
       imgElem.style.display = 'block';
     }
 
-    // Gerar QR Code Pix dinâmico com base no código recebido
     new QRCode(document.getElementById("qrcode"), {
       text: pixFinal,
       width: 180,
@@ -224,7 +227,6 @@
       correctLevel: QRCode.CorrectLevel.M
     });
 
-    // Função para copiar o código Pix para a área de transferência
     function copiarPix() {
       const pixInput = document.getElementById("pix-code");
       pixInput.select();
