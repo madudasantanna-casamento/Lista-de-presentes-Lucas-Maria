@@ -853,115 +853,79 @@
       </div>
     </div>
 
-<!-- Cabeçalho Completo com Logo e QR Code Restaurado -->
-<header class="top-header" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: #fff; border-bottom: 1px solid var(--border-color);">
-  <div class="header-left" style="display: flex; align-items: center; gap: 15px;">
-    <img src="./logo.png" alt="Logo LM" style="width: 45px; height: 45px;" />
-    <div>
-      <h2 style="font-family: var(--font-title); font-size: 1.2rem; color: var(--primary-color); margin: 0;">Casamento Maria & Lucas</h2>
-      <span style="font-size: 0.8rem; color: var(--text-muted);">30.01.2027</span>
-    </div>
+    <!-- MURAL DE RECADOS -->
+    <section class="mural-section">
+      <h2 class="section-title" style="font-size: 1.5rem; margin-top: 0;">Deixe seu recado aos noivos:</h2>
+      <div class="mural-form" style="margin-top: 20px;">
+        <textarea id="texto-recado" maxlength="200" placeholder="Escreva sua mensagem carinhosa (máximo 200 caracteres)..." required></textarea>
+        <input type="text" id="nome-convidado" placeholder="Seu nome" required />
+        <button class="btn-publicar" onclick="publicarRecado()">Publicar</button>
+      </div>
+
+      <div class="mural-lista" id="lista-recados"></div>
+    </section>
+
+  </main>
+
+  <div id="modalZoom" class="modal-zoom" onclick="fecharZoom()">
+    <span class="modal-close">×</span>
+    <img id="imgZoom" class="modal-content" src="" alt="Imagem ampliada" />
   </div>
 
-  <!-- Bloco do QR Code Restaurado -->
-  <div class="header-qr-box" style="display: flex; align-items: center; gap: 10px; background: #F8F9F7; padding: 8px 15px; border-radius: 10px; border: 1px solid var(--border-color);">
-    <div style="text-align: right;">
-      <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-color); display: block;">Acesse pelo Celular</span>
-      <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link copiado!');" style="background: var(--primary-color); color: #fff; border: none; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; cursor: pointer; margin-top: 3px;">Copiar Link</button>
-    </div>
-    <div id="headerQrCode"></div>
-  </div>
-</header>
+  <script>
+    new QRCode(document.getElementById("qrcode-header"), {
+      text: window.location.href,
+      width: 75,
+      height: 75,
+      colorDark: "#38423B",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
 
-<!-- Mural de Recados com Layout Original -->
-<section id="mural" class="mural-section" style="max-width: 700px; margin: 40px auto; padding: 0 20px;">
-  <h2 style="font-family: var(--font-title); color: var(--primary-color); text-align: center; margin-bottom: 25px;">Mural de Recados</h2>
-
-  <form id="formMural" class="mural-card-form" style="background: #fff; padding: 25px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-bottom: 30px;">
-    <div class="form-group" style="margin-bottom: 15px;">
-      <input type="text" id="muralNome" placeholder="Seu nome" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family: var(--font-body);" />
-    </div>
-    <div class="form-group" style="margin-bottom: 15px;">
-      <textarea id="muralTexto" placeholder="Escreva um recado carinhoso para os noivos..." required style="width: 100%; height: 90px; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-family: var(--font-body); resize: none;"></textarea>
-    </div>
-    <button type="submit" id="btnMural" style="width: 100%; padding: 14px; background: var(--primary-color); color: #fff; border: none; border-radius: 25px; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; cursor: pointer; transition: background 0.2s;">
-      Publicar Recado
-    </button>
-  </form>
-
-  <div id="listaRecados" style="display: flex; flex-direction: column; gap: 15px;"></div>
-</section>
-
-<!-- Scripts de Integração e Gerador de QR Code -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script>
-  const GOOGLE_SCRIPT_URL = "COLE_SEU_LINK_DO_APPS_SCRIPT_AQUI";
-
-  // Gerar QR Code no topo
-  new QRCode(document.getElementById("headerQrCode"), {
-    text: window.location.href,
-    width: 42,
-    height: 42
-  });
-
-  // Carregar recados via JSONP (Sem travamentos)
-  function carregarRecados() {
-    const script = document.createElement('script');
-    script.src = `${GOOGLE_SCRIPT_URL}?callback=renderizarRecados&t=${new Date().getTime()}`;
-    document.body.appendChild(script);
-  }
-
-  function renderizarRecados(recados) {
-    const container = document.getElementById('listaRecados');
-    container.innerHTML = '';
-
-    if (!recados || recados.length === 0) {
-      container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Seja o primeiro a deixar um recado!</p>';
-      return;
+    function copiarLinkSite() {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Link do site copiado para a área de transferência!');
     }
 
-    recados.reverse().forEach(r => {
-      const item = document.createElement('div');
-      item.style.cssText = "background: #fff; padding: 18px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 2px 8px rgba(0,0,0,0.03);";
-      item.innerHTML = `<strong style="color: var(--primary-color); font-family: var(--font-title); font-size: 1.05rem; display: block; margin-bottom: 6px;">${r.nome}</strong><p style="font-size: 0.95rem; color: var(--text-color); margin: 0;">${r.mensagem}</p>`;
-      container.appendChild(item);
-    });
-  }
+    function abrirZoom(src) {
+      const modal = document.getElementById('modalZoom');
+      const imgZoom = document.getElementById('imgZoom');
+      imgZoom.src = src;
+      modal.style.display = 'flex';
+    }
 
-  // Envio do formulário
-  document.getElementById('formMural').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const btn = document.getElementById('btnMural');
-    const nome = document.getElementById('muralNome').value.trim();
-    const mensagem = document.getElementById('muralTexto').value.trim();
+    function fecharZoom() {
+      document.getElementById('modalZoom').style.display = 'none';
+    }
 
-    if (!nome || !mensagem) return;
+    function carregarRecados() {
+      const recados = JSON.parse(localStorage.getItem('recados_casamento') || '[]');
+      const lista = document.getElementById('lista-recados');
+      lista.innerHTML = '';
+      recados.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'recado-item';
+        div.innerHTML = `<div class="recado-autor">${r.nome}</div><div class="recado-texto">${r.texto}</div>`;
+        lista.appendChild(div);
+      });
+    }
 
-    btn.innerText = "Publicando...";
-    btn.disabled = true;
+    function publicarRecado() {
+      const texto = document.getElementById('texto-recado').value.trim();
+      const nome = document.getElementById('nome-convidado').value.trim();
+      if(!texto || !nome) {
+        alert('Por favor, preencha seu nome e a mensagem.');
+        return;
+      }
+      const recados = JSON.parse(localStorage.getItem('recados_casamento') || '[]');
+      recados.unshift({ nome, texto });
+      localStorage.setItem('recados_casamento', JSON.stringify(recados));
+      document.getElementById('texto-recado').value = '';
+      document.getElementById('nome-convidado').value = '';
+      carregarRecados();
+    }
 
-    const formData = new URLSearchParams();
-    formData.append('action', 'mural');
-    formData.append('Nome', nome);
-    formData.append('Mensagem', mensagem);
-
-    fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: formData.toString()
-    }).then(() => {
-      document.getElementById('muralNome').value = '';
-      document.getElementById('muralTexto').value = '';
-      btn.innerText = "Publicar Recado";
-      btn.disabled = false;
-      setTimeout(carregarRecados, 1200);
-    }).catch(() => {
-      btn.innerText = "Publicar Recado";
-      btn.disabled = false;
-    });
-  });
-
-  carregarRecados();
-</script>
+    window.onload = carregarRecados;
+  </script>
+</body>
 </html>
