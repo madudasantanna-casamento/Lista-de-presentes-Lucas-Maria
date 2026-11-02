@@ -20,6 +20,7 @@
       --text-muted: #6C7A6E;
       --border-color: #E2E8E3;
       --error-color: #D9534F;
+      --whatsapp-color: #25D366;
       
       --font-title: 'Playfair Display', Georgia, serif;
       --font-body: 'Montserrat', sans-serif;
@@ -131,6 +132,24 @@
 
     .btn-voltar-menu:hover { background: #F2F5F3; color: var(--text-color); }
 
+    .btn-whatsapp {
+      display: inline-block;
+      width: 100%;
+      padding: 14px;
+      background-color: var(--whatsapp-color);
+      color: #FFF;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      margin-top: 15px;
+      text-align: center;
+      transition: opacity 0.2s;
+    }
+
+    .btn-whatsapp:hover { opacity: 0.9; }
+
     .success-box {
       display: none;
       text-align: center;
@@ -221,12 +240,15 @@
 
     <div id="successBox" class="success-box">
       <h2>Presença Confirmada com Sucesso!</h2>
-      <p style="color: var(--text-muted); margin-bottom: 15px;">Os dados foram registrados na planilha e o e-mail de notificação foi enviado aos noivos.</p>
+      <p style="color: var(--text-muted); margin-bottom: 15px;">Os dados foram registrados na planilha e a notificação foi enviada aos noivos.</p>
       
       <div class="sms-preview">
-        <strong>📱 Mensagem enviada ao convidado:</strong><br>
+        <strong>📱 Clique abaixo para receber seu comprovante no WhatsApp:</strong><br>
         <em>"Parabéns! Você acaba de confirmar sua presença em um dos dias mais importantes de nossas vidas. Obrigada, Lucas & Maria."</em>
       </div>
+
+      <!-- Botão para enviar WhatsApp -->
+      <a id="btnWspLink" href="#" target="_blank" class="btn-whatsapp">💬 Receber Confirmação no WhatsApp</a>
 
       <a href="index.html" class="btn-voltar-menu" style="background: var(--primary-color); color: #fff;">Voltar ao Menu Principal</a>
     </div>
@@ -316,6 +338,18 @@
       const qtdCriancas = document.getElementById('qtdCriancas').value;
       const email = document.getElementById('email').value.trim();
 
+      // Tratar número de telefone para o padrão do WhatsApp (Adicionar +55 se necessário)
+      let numLimpo = celular.replace(/\D/g, '');
+      if (numLimpo.length === 10 || numLimpo.length === 11) {
+        numLimpo = '55' + numLimpo;
+      }
+
+      const textoMensagem = encodeURIComponent("Parabéns! Você acaba de confirmar sua presença em um dos dias mais importantes de nossas vidas. Obrigada, Lucas & Maria.");
+      const wspUrl = `https://api.whatsapp.com/send?phone=${numLimpo}&text=${textoMensagem}`;
+
+      // Configurar o botão do WhatsApp
+      document.getElementById('btnWspLink').href = wspUrl;
+
       const formData = new URLSearchParams();
       formData.append('Telefone', celular);
       formData.append('Total_Pessoas', numPessoas);
@@ -335,6 +369,9 @@
 
         document.getElementById('rsvpForm').style.display = 'none';
         document.getElementById('successBox').style.display = 'block';
+
+        // Tenta abrir a aba do WhatsApp automaticamente
+        window.open(wspUrl, '_blank');
       }).catch(err => {
         alert("Ocorreu um erro ao conectar com a planilha. Verifique a URL do script.");
         btnSubmit.innerText = "Confirmar Presença";
