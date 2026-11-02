@@ -853,79 +853,94 @@
       </div>
     </div>
 
-    <!-- MURAL DE RECADOS -->
-    <section class="mural-section">
-      <h2 class="section-title" style="font-size: 1.5rem; margin-top: 0;">Deixe seu recado aos noivos:</h2>
-      <div class="mural-form" style="margin-top: 20px;">
-        <textarea id="texto-recado" maxlength="200" placeholder="Escreva sua mensagem carinhosa (máximo 200 caracteres)..." required></textarea>
-        <input type="text" id="nome-convidado" placeholder="Seu nome" required />
-        <button class="btn-publicar" onclick="publicarRecado()">Publicar</button>
-      </div>
+    <!-- Seção Mural de Recados Pública -->
+<section id="mural" style="max-width: 650px; margin: 40px auto; padding: 20px;">
+  <h2 style="font-family: var(--font-title); color: var(--primary-color); text-align: center; margin-bottom: 20px;">
+    Mural de Recados
+  </h2>
 
-      <div class="mural-lista" id="lista-recados"></div>
-    </section>
+  <form id="formMural" style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); margin-bottom: 30px;">
+    <div style="margin-bottom: 12px;">
+      <input type="text" id="muralNome" placeholder="Seu nome" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);" />
+    </div>
+    <div style="margin-bottom: 12px;">
+      <textarea id="muralTexto" placeholder="Escreva um recado carinhoso para os noivos..." required style="width: 100%; height: 80px; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); resize: none;"></textarea>
+    </div>
+    <button type="submit" id="btnMural" style="width: 100%; padding: 12px; background: var(--primary-color); color: #fff; border: none; border-radius: 20px; font-weight: 600; cursor: pointer;">
+      Publicar Recado
+    </button>
+  </form>
 
-  </main>
-
-  <div id="modalZoom" class="modal-zoom" onclick="fecharZoom()">
-    <span class="modal-close">×</span>
-    <img id="imgZoom" class="modal-content" src="" alt="Imagem ampliada" />
+  <!-- Lista de Recados Carregados da Planilha -->
+  <div id="listaRecados" style="display: flex; flex-direction: column; gap: 15px;">
+    <p style="text-align: center; color: var(--text-muted);">Carregando recados...</p>
   </div>
+</section>
 
-  <script>
-    new QRCode(document.getElementById("qrcode-header"), {
-      text: window.location.href,
-      width: 75,
-      height: 75,
-      colorDark: "#38423B",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
+<script>
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBb8Wzaff93jE6G_KvwISXSOaiLOu8kgLShSnJ3_FFaZPpeaE1o106-I8UWGLzpYo/exec";
 
-    function copiarLinkSite() {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link do site copiado para a área de transferência!');
-    }
+  async function carregarRecados() {
+    try {
+      const res = await fetch(GOOGLE_SCRIPT_URL);
+      const recados = await res.json();
+      const container = document.getElementById('listaRecados');
+      container.innerHTML = '';
 
-    function abrirZoom(src) {
-      const modal = document.getElementById('modalZoom');
-      const imgZoom = document.getElementById('imgZoom');
-      imgZoom.src = src;
-      modal.style.display = 'flex';
-    }
-
-    function fecharZoom() {
-      document.getElementById('modalZoom').style.display = 'none';
-    }
-
-    function carregarRecados() {
-      const recados = JSON.parse(localStorage.getItem('recados_casamento') || '[]');
-      const lista = document.getElementById('lista-recados');
-      lista.innerHTML = '';
-      recados.forEach(r => {
-        const div = document.createElement('div');
-        div.className = 'recado-item';
-        div.innerHTML = `<div class="recado-autor">${r.nome}</div><div class="recado-texto">${r.texto}</div>`;
-        lista.appendChild(div);
-      });
-    }
-
-    function publicarRecado() {
-      const texto = document.getElementById('texto-recado').value.trim();
-      const nome = document.getElementById('nome-convidado').value.trim();
-      if(!texto || !nome) {
-        alert('Por favor, preencha seu nome e a mensagem.');
+      if (!recados || recados.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Seja o primeiro a deixar um recado!</p>';
         return;
       }
-      const recados = JSON.parse(localStorage.getItem('recados_casamento') || '[]');
-      recados.unshift({ nome, texto });
-      localStorage.setItem('recados_casamento', JSON.stringify(recados));
-      document.getElementById('texto-recado').value = '';
-      document.getElementById('nome-convidado').value = '';
-      carregarRecados();
-    }
 
-    window.onload = carregarRecados;
-  </script>
-</body>
+      recados.reverse().forEach(r => {
+        const item = document.createElement('div');
+        item.style.cssText = "background: #fff; padding: 15px; border-radius: 10px; border: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(0,0,0,0.03);";
+        item.innerHTML = `<strong style="color: var(--primary-color); display: block; margin-bottom: 5px;">${r.nome}</strong><p style="font-size: 0.95rem; color: var(--text-color);">${r.mensagem}</p>`;
+        container.appendChild(item);
+      });
+    } catch (e) {
+      document.getElementById('listaRecados').innerHTML = '<p style="text-align: center; color: var(--text-muted);">Erro ao carregar os recados.</p>';
+    }
+  }
+
+  document.getElementById('formMural').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btnMural');
+    const nome = document.getElementById('muralNome').value.trim();
+    const mensagem = document.getElementById('muralTexto').value.trim();
+
+    if (!nome || !mensagem) return;
+
+    btn.innerText = "Publicando...";
+    btn.disabled = true;
+
+    const formData = new URLSearchParams();
+    formData.append('action', 'mural');
+    formData.append('Nome', nome);
+    formData.append('Mensagem', mensagem);
+
+    try {
+      await fetch(https://script.google.com/macros/s/AKfycbzBb8Wzaff93jE6G_KvwISXSOaiLOu8kgLShSnJ3_FFaZPpeaE1o106-I8UWGLzpYo/exec, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+      });
+
+      document.getElementById('muralNome').value = '';
+      document.getElementById('muralTexto').value = '';
+      btn.innerText = "Publicar Recado";
+      btn.disabled = false;
+      
+      setTimeout(carregarRecados, 1500);
+    } catch (err) {
+      alert("Erro ao publicar recado. Tente novamente.");
+      btn.innerText = "Publicar Recado";
+      btn.disabled = false;
+    }
+  });
+
+  // Carrega os recados assim que a página abre
+  carregarRecados();
+</script>
 </html>
