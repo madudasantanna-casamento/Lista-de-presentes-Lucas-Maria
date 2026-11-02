@@ -66,7 +66,7 @@
       color: var(--error-color);
       font-size: 0.8rem;
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       display: none;
     }
 
@@ -160,7 +160,7 @@
   <div class="rsvp-card">
     <h1>Confirmação de Presença</h1>
 
-    <form id="rsvpForm" onsubmit="enviarRSVP(event)">
+    <form id="rsvpForm">
       
       <!-- Telefone -->
       <div class="form-group">
@@ -171,7 +171,7 @@
 
       <!-- Número de pessoas -->
       <div class="form-group">
-        <div id="err-numPessoas" class="error-msg">Selecione o número de pessoas.</div>
+        <div id="err-numPessoas" class="error-msg">Selecione o número de acompanhantes.</div>
         <label for="numPessoas">Número de pessoas que irão lhe acompanhar (incluindo você)*:</label>
         <select id="numPessoas" name="Total_Pessoas" onchange="gerarCamposNomes()">
           <option value="" disabled selected>Selecione...</option>
@@ -190,6 +190,7 @@
 
       <!-- Campos Dinâmicos -->
       <div class="form-group" id="grupoNomes" style="display: none;">
+        <div id="err-nomes" class="error-msg">Preencha o nome de todos os convidados.</div>
         <label>Informe o nome de cada participante*:</label>
         <div id="camposNomes" class="names-container"></div>
       </div>
@@ -214,16 +215,16 @@
         <input type="email" id="email" name="Email" placeholder="seuemail@exemplo.com">
       </div>
 
-      <button type="submit" id="btnSubmit" class="btn-enviar">Confirmar Presença</button>
+      <button type="button" id="btnSubmit" onclick="validarEEnviar()" class="btn-enviar">Confirmar Presença</button>
       <a href="index.html" class="btn-voltar-menu">Voltar ao Menu</a>
     </form>
 
     <div id="successBox" class="success-box">
       <h2>Presença Confirmada com Sucesso!</h2>
-      <p style="color: var(--text-muted); margin-bottom: 15px;">Os dados foram registrados com sucesso na planilha e a notificação foi enviada para os noivos.</p>
+      <p style="color: var(--text-muted); margin-bottom: 15px;">Os dados foram registrados na planilha e o e-mail de notificação foi enviado aos noivos.</p>
       
       <div class="sms-preview">
-        <strong>📱 Mensagem de confirmação enviada:</strong><br>
+        <strong>📱 Mensagem enviada ao convidado:</strong><br>
         <em>"Parabéns! Você acaba de confirmar sua presença em um dos dias mais importantes de nossas vidas. Obrigada, Lucas & Maria."</em>
       </div>
 
@@ -233,8 +234,8 @@
   </div>
 
   <script>
-    // Cole aqui a URL gerada na Implantação do Google Apps Script
-    const GOOGLE_SCRIPT_URL = "COLE_SEU_LINK_DO_APPS_SCRIPT_AQUI"; 
+    // Cole aqui o seu URL do Apps Script do Google
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBb8Wzaff93jE6G_KvwISXSOaiLOu8kgLShSnJ3_FFaZPpeaE1o106-I8UWGLzpYo/exec"; 
 
     function gerarCamposNomes() {
       const qtd = parseInt(document.getElementById('numPessoas').value);
@@ -258,9 +259,7 @@
       document.getElementById('grupoQtdCriancas').style.display = mostrar ? 'block' : 'none';
     }
 
-    async function enviarRSVP(event) {
-      event.preventDefault();
-      
+    function validarEEnviar() {
       let valido = true;
       const celular = document.getElementById('celular').value.trim();
       const numPessoas = document.getElementById('numPessoas').value;
@@ -285,15 +284,27 @@
 
       const inputsNomes = document.querySelectorAll('.input-nome-convidado');
       let nomesArr = [];
+      let nomesPreenchidos = true;
+
+      if(inputsNomes.length === 0) {
+        valido = false;
+        document.getElementById('err-numPessoas').style.display = 'block';
+      }
+
       inputsNomes.forEach(inp => {
         if (!inp.value.trim()) {
-          valido = false;
+          nomesPreenchidos = false;
           inp.style.borderColor = 'var(--error-color)';
         } else {
           inp.style.borderColor = 'var(--border-color)';
           nomesArr.push(inp.value.trim());
         }
       });
+
+      if(!nomesPreenchidos) {
+        document.getElementById('err-nomes').style.display = 'block';
+        valido = false;
+      }
 
       if (!valido) return;
 
@@ -313,23 +324,22 @@
       formData.append('Qtd_Criancas', qtdCriancas);
       formData.append('Email', email);
 
-      try {
-        await fetch(https://script.google.com/macros/s/AKfycbzBb8Wzaff93jE6G_KvwISXSOaiLOu8kgLShSnJ3_FFaZPpeaE1o106-I8UWGLzpYo/exec, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: formData
-        });
-
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+      }).then(() => {
         confirmados.push(celular);
         localStorage.setItem('telefones_confirmados', JSON.stringify(confirmados));
 
         document.getElementById('rsvpForm').style.display = 'none';
         document.getElementById('successBox').style.display = 'block';
-      } catch (error) {
-        alert('Erro ao conectar com o servidor. Tente novamente.');
+      }).catch(err => {
+        alert("Ocorreu um erro ao conectar com a planilha. Verifique a URL do script.");
         btnSubmit.innerText = "Confirmar Presença";
         btnSubmit.disabled = false;
-      }
+      });
     }
   </script>
 
